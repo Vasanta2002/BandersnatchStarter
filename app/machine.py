@@ -12,9 +12,10 @@ class Machine:
         self.name = "Random Forest Classifier"
         target = df["Rarity"]
         features = df[["Level", "Health", "Energy", "Sanity"]]
+        rfc = RandomForestClassifier(n_estimators=80)
         self.model = Pipeline([
             ("scaler", StandardScaler()),
-            ("clf", RandomForestClassifier(n_estimators=80))
+            ("clf", rfc)
         ])
 
         self.model.fit(features, target)

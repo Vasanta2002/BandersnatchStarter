@@ -47,7 +47,7 @@ Stuck? Post in `labs-ds` or open a support ticket in the Hub!
 - [ ] Does the code follow the PEP style guide?
 
 ### C. API Graph Integration
-- [ ] Make sure the graph is being serialized correctly using the `.to_json()` method
+- [ ] 
 - [ ] The display of the graph should be fairly automatic, double check by running the web app locally
 - [ ] Does the graph look good in the context of the Bandersnatch dark web theme?
 
