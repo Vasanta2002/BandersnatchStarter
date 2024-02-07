@@ -64,7 +64,7 @@ class Database:
         Returns:
             DataFrame: The DataFrame representing the collection data.
         """
-        cursor = self.collection.find()
+        cursor = self.collection.find({}, {'_id': 0})
         data_list = list(cursor)
         return DataFrame(data_list)
 
@@ -79,7 +79,7 @@ class Database:
         if count == 0:
             return None
 
-        cursor = self.collection.find()
+        cursor = self.collection.find({}, {'_id': 0})
         data_list = list(cursor)
 
         if not data_list:
@@ -89,8 +89,9 @@ class Database:
         return df.to_html()
 
 
-#if __name__ == '__main__':
-    #db = Database("Collection")
-    #db.seed(1000)
-    #print('U did it')
+if __name__ == '__main__':
+    db = Database('Collection')
+    db.html_table()
+    print(db.html_table())
+    print('U did it')
 

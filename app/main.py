@@ -10,7 +10,7 @@ from app.data import Database
 from app.graph import chart
 from app.machine import Machine
 
-SPRINT = 1
+SPRINT = 3
 APP = Flask(__name__)
 
 
@@ -28,7 +28,7 @@ def home():
 def data():
     if SPRINT < 1:
         return render_template("data.html")
-    db = Database()
+    db = Database('Collection')
     return render_template(
         "data.html",
         count=db.count(),
@@ -40,7 +40,7 @@ def data():
 def view():
     if SPRINT < 2:
         return render_template("view.html")
-    db = Database()
+    db = Database('Collection')
     options = ["Level", "Health", "Energy", "Sanity", "Rarity"]
     x_axis = request.values.get("x_axis") or options[1]
     y_axis = request.values.get("y_axis") or options[2]
@@ -66,7 +66,7 @@ def view():
 def model():
     if SPRINT < 3:
         return render_template("model.html")
-    db = Database()
+    db = Database('Collection')
     options = ["Level", "Health", "Energy", "Sanity", "Rarity"]
     filepath = os.path.join("app", "model.joblib")
     if not os.path.exists(filepath):
@@ -80,9 +80,7 @@ def model():
     health = request.values.get("health", type=float) or stats.pop()
     energy = request.values.get("energy", type=float) or stats.pop()
     sanity = request.values.get("sanity", type=float) or stats.pop()
-    prediction, confidence = machine(DataFrame(
-        [dict(zip(options, (level, health, energy, sanity)))]
-    ))
+    prediction, confidence = machine(DataFrame())
     info = machine.info()
     return render_template(
         "model.html",
