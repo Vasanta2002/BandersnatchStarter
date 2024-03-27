@@ -28,7 +28,7 @@ def home():
 def data():
     if SPRINT < 1:
         return render_template("data.html")
-    db = Database()
+    db = Database('Collection')
     return render_template(
         "data.html",
         count=db.count(),
@@ -38,7 +38,7 @@ def data():
 
 @APP.route("/reset")
 def reset():
-    db = Database()
+    db = Database('Collection')
     db.reset()
     db.seed(1000)
     return redirect("/data")
@@ -48,7 +48,7 @@ def reset():
 def view():
     if SPRINT < 2:
         return render_template("view.html")
-    db = Database()
+    db = Database('Collection')
     options = ["Level", "Health", "Energy", "Sanity", "Rarity"]
     x_axis = request.values.get("x_axis") or options[1]
     y_axis = request.values.get("y_axis") or options[2]
@@ -74,9 +74,9 @@ def view():
 def model():
     if SPRINT < 3:
         return render_template("model.html")
-    db = Database()
+    db = Database('Collection')
     options = ["Level", "Health", "Energy", "Sanity", "Rarity"]
-    filepath = "C:\\Users\\vasan\\PycharmProjects\\BandersnatchStarter\\app\\model.joblib";
+    filepath = "C:\\Users\\vasan\\PycharmProjects\\BandersnatchStarter\\app\\model.joblib"
     if request.values.get("retrain", type=bool) or not os.path.exists(filepath):
         df = db.dataframe()
         machine = Machine(df[options])
