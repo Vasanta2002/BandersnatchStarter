@@ -1,9 +1,11 @@
 ''' Module containing a class for a RandomForestClassifier model'''
-from sklearn.preprocessing import StandardScaler
+from pandas import DataFrame
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 import joblib
-import datetime
+from datetime import datetime
+
 
 
 class Machine:
@@ -11,23 +13,18 @@ class Machine:
     def __init__(self, df):
         self.name = "Random Forest Classifier"
         target = df["Rarity"]
-        features = df[["Level", "Health", "Energy", "Sanity"]]
-        rfc = RandomForestClassifier(n_estimators=80)
-        self.model = Pipeline([
-            ("scaler", StandardScaler()),
-            ("clf", rfc)
-        ])
-
+        features = df.drop(columns=['Rarity'])
+        self.model = RandomForestClassifier()
         self.model.fit(features, target)
 
-    def __call__(self, feature_basis):
+    def __call__(self, feature_basis: DataFrame):
         prediction = self.model.predict(feature_basis)
         confidence = self.model.predict_proba(feature_basis).max()
-        return *prediction, confidence
+        return *prediction, *confidence
 
     def save(self, filepath):
         '''Saves model to given filepath'''
-        joblib.dump(self, filepath)
+        joblib.dump(self.model, filepath)
 
     @staticmethod
     def open(filepath):
@@ -36,4 +33,4 @@ class Machine:
 
     def info(self):
         '''Returns the name of the model and the current datetime'''
-        return f"Base Model: {self.name} <br /> Timestamp: {datetime.datetime.now():%Y-%m-%d %l:%M:%S %p}"
+        return f"Base Model: {self.name} <br /> Timestamp: {datetime.now():%Y-%m-%d %l:%M:%S %p}"
